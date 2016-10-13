@@ -326,14 +326,6 @@ if (('ontouchstart' in window) || (window.DocumentTouch && document instanceof D
   document.getElementsByClassName('zoom-container')[0].style.display = 'none';
 }
 
-// initialize mapzen bug
-var mzBug = new MapzenBug({
-  name: window.bugTitle,
-  link: 'https://github.com/mapzen/svg-export',
-  tweet: 'An SVG map download tool from @mapzen',
-  repo: 'https://github.com/mapzen/svg-export'
-});
-
 function renderTiles(d) {
   var displayLayers = layers.filter(function(d){ return d.display; })
       .map(function(d){ return d.layer; }),
@@ -341,7 +333,8 @@ function renderTiles(d) {
 
   var svg = d3.select(this);
   var zoom = d[2];
-  this._xhr = d3.json("https://vector.mapzen.com/osm/"+requestLayers+"/" + zoom + "/" + d[0] + "/" + d[1] + ".topojson?api_key=vector-tiles-LM25tq4", function(error, json) {
+  //https://tile.mapzen.com/mapzen/vector/v1/all/
+  this._xhr = d3.json("https://tile.mapzen.com/mapzen/vector/v1/all/" + zoom + "/" + d[0] + "/" + d[1] + ".topojson?api_key=vector-tiles-9rqLeje", function(error, json) {
     var k = Math.pow(2, d[2]) * 256; // size of the world in pixels
 
     tilePath.projection()
