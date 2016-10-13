@@ -214,7 +214,7 @@ function sortData(thorough) {
     .key(function(d){ return d.layer_name; })
     .key(function(d){ 
       var kind = d.properties.kind;
-      if (thorough && d.properties.boundary=='yes')
+      if (thorough && d.properties.boundary==true)
         kind += '_boundary';
       return kind; })
     .entries(mapData);
@@ -333,7 +333,6 @@ function renderTiles(d) {
 
   var svg = d3.select(this);
   var zoom = d[2];
-  //https://tile.mapzen.com/mapzen/vector/v1/all/
   this._xhr = d3.json("https://tile.mapzen.com/mapzen/vector/v1/all/" + zoom + "/" + d[0] + "/" + d[1] + ".topojson?api_key=mapzen-R6PDPvd", function(error, json) {
     var k = Math.pow(2, d[2]) * 256; // size of the world in pixels
 
@@ -369,7 +368,7 @@ function renderTiles(d) {
           var kind = sorted[i].key;
           for (var j in sorted[i].values) {
             // Don't include any label placement points
-            if(sorted[i].values[j].properties.label_placement == 'yes') { continue }
+            if(sorted[i].values[j].properties.label_placement == true) { continue }
             // Don't show small buildings at z14 or below.
             if(zoom <= 14 && layer == 'buildings' && sorted[i].values[j].properties.area < 2000) { continue }
 
@@ -384,13 +383,13 @@ function renderTiles(d) {
     // put all the features into SVG paths
     var paths = svg.selectAll("path")
       .data(features.sort(function(a, b) { 
-        return a.properties.sort_key ? a.properties.sort_key - b.properties.sort_key : 0 }));
+        return a.properties.sort_rank ? a.properties.sort_rank - b.properties.sort_rank : 0 }));
     paths.enter().append("path");
     paths.exit().remove();
     paths.attr("class", function(d) {
         var kind = d.properties.kind || '',
           kind = kind.replace("_","-");
-        if(d.properties.boundary=='yes')
+        if(d.properties.boundary==true)
           {kind += '_boundary';} 
         return d.layer_name + '-layer ' + kind; })
       .attr("d", tilePath)
@@ -447,7 +446,7 @@ function exportify() {
     paths.attr("class", function(d) {
         var kind = d.properties.kind || '',
           kind = kind.replace("_","-");
-        if(d.properties.boundary=='yes')
+        if(d.properties.boundary==true)
           {kind += '_boundary';} 
         return d.layer_name + '-layer ' + kind; })
       .attr("d", tilePath);
