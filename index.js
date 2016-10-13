@@ -334,7 +334,7 @@ function renderTiles(d) {
   var svg = d3.select(this);
   var zoom = d[2];
   //https://tile.mapzen.com/mapzen/vector/v1/all/
-  this._xhr = d3.json("https://tile.mapzen.com/mapzen/vector/v1/all/" + zoom + "/" + d[0] + "/" + d[1] + ".topojson?api_key=vector-tiles-9rqLeje", function(error, json) {
+  this._xhr = d3.json("https://tile.mapzen.com/mapzen/vector/v1/all/" + zoom + "/" + d[0] + "/" + d[1] + ".topojson?api_key=mapzen-R6PDPvd", function(error, json) {
     var k = Math.pow(2, d[2]) * 256; // size of the world in pixels
 
     tilePath.projection()
