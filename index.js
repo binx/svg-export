@@ -1,3 +1,6 @@
+const nextzen_api_key = "_zeXSryhSXmLLpEko7xG6w";
+const geocode_earth_api_key = "…………"; // request pending, add your own api key
+
 var layers = [
     { layer: 'boundaries',
       display: false,
@@ -121,7 +124,7 @@ d3.select("#search-text").on("keydown",function(){
 
 function search(text) {
   var text = document.getElementById('search-text').value;
-  d3.json("https://search.mapzen.com/v1/search?text="+text+"&api_key=search-owZDPeC", function(error, json) {
+  d3.json("https://api.geocode.earth/v1/search?text="+text+"&api_key=" + geocode_earth_api_key, function(error, json) {
         var latlon = json.features[0].geometry.coordinates;
         zoomTo(latlon);
         document.getElementById('search-text').value = '';
@@ -153,7 +156,7 @@ var zoom_out = zoom_controls.append("a")
 
 var info = map.append("div")
     .attr("class", "info")
-    .html('<a href="http://bl.ocks.org/mbostock/5593150" target="_top">Mike Bostock</a> | © <a href="https://www.openstreetmap.org/copyright" target="_top">OpenStreetMap contributors</a> | <a href="https://mapzen.com/projects/vector-tiles" title="Tiles courtesy of Mapzen" target="_top">Mapzen</a>');
+    .html('<a href="http://bl.ocks.org/mbostock/5593150" target="_top">Mike Bostock</a> | © <a href="https://www.openstreetmap.org/copyright" target="_top">OpenStreetMap contributors</a> | <a href="https://www.nextzen.org/" title="Tiles courtesy of Nextzen" target="_top">Nextzen</a>  | <a href="https://geocode.earth/" title="Search by geocode.earth" target="_top">geocode.earth</a>');
 
 zoomed();
 setTimeout(sortFeatures, 1500);
@@ -333,7 +336,7 @@ function renderTiles(d) {
 
   var svg = d3.select(this);
   var zoom = d[2];
-  this._xhr = d3.json("https://tile.mapzen.com/mapzen/vector/v1/all/" + zoom + "/" + d[0] + "/" + d[1] + ".topojson?api_key=mapzen-R6PDPvd", function(error, json) {
+  this._xhr = d3.json("https://tile.nextzen.org/tilezen/vector/v1/256/all/" + zoom + "/" + d[0] + "/" + d[1] + ".topojson?api_key=" + nextzen_api_key, function(error, json) {
     var k = Math.pow(2, d[2]) * 256; // size of the world in pixels
 
     tilePath.projection()
